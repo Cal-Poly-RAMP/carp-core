@@ -11,8 +11,11 @@ logic [63:0] W_product;
 logic [63:0] corrected;
 
 always_comb begin
+    // carry over the results from the previous stage
     W_product = M_product;
 
+    // and continue as before:
+    // repeated addition of (opB * each bit of opA)
     for (int i = 22; i < 32; i++) begin
         if (opA[i]) W_product += {32'b0, opB} << i;
     end

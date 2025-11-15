@@ -10,8 +10,10 @@ module MUL_E (
 );
 
 always_comb begin
+    // initialize sum to 0
     E_product = 64'b0;
 
+    // slight variations in logic for different ops & 2's complement
     case (mul_op)
         2'b00: begin // MUL
             opA    = (rs1[31]) ? (~rs1 + 1) : rs1;  // abs
@@ -35,6 +37,7 @@ always_comb begin
         end
     endcase
 
+    // repeated addition of (opB * each bit of opA)
     for (int i = 0; i < 11; i++) begin
         if (opA[i]) E_product += {32'b0, opB} << i;
     end
